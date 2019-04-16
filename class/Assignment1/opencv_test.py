@@ -19,6 +19,7 @@ def plot_histogram(data):
     for a, b in zip(labels, counts):
         plt.text(a, b + 0.05, '%.0f' % b, ha='center', va='bottom', fontsize=7)
     plt.xlabel('Intensity')
+    plt.title('histogram')
     plt.show()
 
 def getCDF(image_arr):
@@ -48,6 +49,7 @@ def transformation(image_arr,max_Intensity):
         new_image.append(t_i)
     return np.asarray(new_image)
 
+question1()
 # new_image=transformation(image_arr, 9)
 # plot_histogram(new_image)
 import skimage
