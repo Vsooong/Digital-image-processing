@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
-filename='D:/data/dip/ir.jpg'
+filename='D:/data/dip/cat.jpg'
 def transformation():
     img=cv2.imread(filename)
     rows,cols,channels=img.shape
@@ -73,9 +73,45 @@ def cornerHarris(thresh):
     for i in range(dst_norm.shape[0]):
         for j in range(dst_norm.shape[1]):
             if int(dst_norm[i, j]) > thresh:
-                cv2.circle(img, (j, i), 4, (238,197,145), 2)
+                cv2.circle(img, (j, i),4, (238,197,145), 1)
     cv2.imshow(corners_window, img)
     if cv2.waitKey(0):
         cv2.destroyAllWindows()
 
-cornerHarris(180)
+# cornerHarris(150)
+
+def SIFT_detector_demo():
+    img = cv2.imread(filename)
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    rows, cols, channels = img.shape
+    M = cv2.getRotationMatrix2D((cols / 2, rows / 2), 45, 1)
+    rotation_img = cv2.warpAffine(gray, M, (cols, rows))
+
+    sift = cv2.xfeatures2d.SIFT_create()
+    kp = sift.detect(gray, None)
+    img = cv2.drawKeypoints(gray, kp, img,flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+    cv2.imshow('sift_keypoints.jpg', img)
+    cv2.waitKey(0)
+
+    kp1, des1=sift.compute(gray,kp)
+    kp2,des2=sift.detectAndCompute(rotation_img,None)
+    bf=cv2.BFMatcher(cv2.NORM_L2,crossCheck=True)
+    matches=bf.match(des1,des2,None)
+    matches=sorted(matches,key=lambda x:x.distance)
+
+
+    result_image=cv2.drawMatches(gray,kp1,rotation_img,kp2,matches[:10],None,flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
+
+    cv2.imshow('match_image.jpg', result_image)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+
+
+
+SIFT_detector_demo()
+
+# https://link.springer.com/content/pdf/10.1007%2Fs10618-019-00619-1.pdf
+# https://www.ijcai.org/proceedings/2018/0482.pdf
+# https://www.ijcai.org/proceedings/2018/0519.pdf

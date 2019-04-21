@@ -47,6 +47,26 @@ def transformation(image_arr,max_Intensity):
         t_i=round((cdf[i]-cdf_min)/(size-cdf_min)*max_Intensity)
         new_image.append(t_i)
     return np.asarray(new_image)
+def draw_matrix():
+    import matplotlib.pylab as pl
+
+    nx = 4
+    ny = 5
+    data = np.random.randint(0, 10, size=(ny, nx))
+
+    pl.figure(figsize=(5, 5))
+    tb = pl.table(cellText=data, loc=(0, 0), cellLoc='center')
+
+    tc = tb.properties()['child_artists']
+    for cell in tc:
+        cell.set_height(1 / ny)
+        cell.set_width(1 / nx)
+
+    ax = pl.gca()
+    ax.set_xticks([])
+    ax.set_yticks([])
+    plt.show()
+
 
 if __name__=="__main__":
     question1()
