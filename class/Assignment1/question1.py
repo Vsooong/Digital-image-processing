@@ -37,7 +37,6 @@ def question1():
     image_arr = np.asarray(image).flatten()
     plot_histogram(image_arr)
 
-
 def transformation(image_arr,max_Intensity):
     cdf=getCDF(image_arr)
     cdf_min= cdf[image_arr.min()]
@@ -49,10 +48,8 @@ def transformation(image_arr,max_Intensity):
         new_image.append(t_i)
     return np.asarray(new_image)
 
-question1()
+if __name__=="__main__":
+    question1()
+# question1()
 # new_image=transformation(image_arr, 9)
 # plot_histogram(new_image)
-import skimage
-# img=cv2.imread('D:/data/faces/2328398005_d328a70b4c.jpg')
-
-
