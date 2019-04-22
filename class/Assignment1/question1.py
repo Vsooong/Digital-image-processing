@@ -33,9 +33,6 @@ def getCDF(image_arr):
         start=cdf[intensity[i]]
     return cdf
 
-def question1():
-    image_arr = np.asarray(image).flatten()
-    plot_histogram(image_arr)
 
 def transformation(image_arr,max_Intensity):
     cdf=getCDF(image_arr)
@@ -47,12 +44,13 @@ def transformation(image_arr,max_Intensity):
         t_i=round((cdf[i]-cdf_min)/(size-cdf_min)*max_Intensity)
         new_image.append(t_i)
     return np.asarray(new_image)
-def draw_matrix():
-    import matplotlib.pylab as pl
 
-    nx = 4
-    ny = 5
-    data = np.random.randint(0, 10, size=(ny, nx))
+def draw_matrix(image):
+    import matplotlib.pylab as pl
+    h,w=image.shape
+    nx = w
+    ny = h
+    data = np.asarray(image,dtype=int)
 
     pl.figure(figsize=(5, 5))
     tb = pl.table(cellText=data, loc=(0, 0), cellLoc='center')
@@ -69,7 +67,10 @@ def draw_matrix():
 
 
 if __name__=="__main__":
-    question1()
-# question1()
-# new_image=transformation(image_arr, 9)
-# plot_histogram(new_image)
+    image_arr = np.asarray(image).flatten()
+    # plot_histogram(image_arr)
+
+    new_image=transformation(image_arr, 9)
+    # plot_histogram(new_image)
+    new_image=new_image.reshape((8,8))
+    draw_matrix(new_image)
